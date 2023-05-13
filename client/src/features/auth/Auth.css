@@ -1,0 +1,75 @@
+.btn-google {
+  height: 2.5rem;
+  background-color: white;
+  border: 1px solid whitesmoke;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 0.9rem;
+  color: #353535;
+  cursor: pointer;
+  transition: box-shadow 218ms, visibility 180ms, opacity 180ms;
+  margin: 0 5px;
+}
+
+.btn-google:hover {
+  box-shadow: 0 0 3px 3px rgb(255 255 255 / 30%);
+}
+
+.btn-google:active {
+  box-shadow: 0 0 3px 3px rgb(255 255 255 / 30%);
+  background-color: rgba(255 255 255 / 80%);
+}
+
+.btn-google:disabled:hover {
+  cursor: initial;
+  box-shadow: initial;
+}
+
+.btn-google:disabled {
+  color: #35353555;
+}
+
+.btn-google:disabled::before {
+  opacity: 0.8;
+}
+
+.btn-google::before {
+  content: url('../../assets/ic_google.svg');
+  margin-right: 10px;
+  transform: translateY(2px);
+  width: 25px;
+}
+
+.logged-in-view {
+  display: flex;
+  align-items: center;
+  height: 3rem;
+}
+
+.logged-in-view:hover {
+  /* text-decoration: underline; */
+  /* cursor: pointer; */
+}
+
+.logged-in-view:hover .btn-logout {
+  visibility: visible;
+  opacity: 1;
+}
+
+.logged-in-view .user-avatar {
+  height: 100%;
+  padding: 5px;
+}
+
+.user-avatar img {
+  border-radius: 50%;
+  height: 100%;
+}
+
+.btn-logout {
+  visibility: hidden;
+  opacity: 0;
+}

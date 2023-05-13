@@ -1,0 +1,22 @@
+{
+  "name": "awesome-todos",
+  "version": "1.0.0",
+  "description": "a todo app",
+  "author": "Wisam Naji",
+  "license": "MIT",
+  "scripts": {
+    "setup": "yarn run setup:server && yarn run setup:client",
+    "setup:server": "cd server && yarn -s",
+    "setup:client": "cd client && yarn -s",
+    "start": "docker-compose --profile prod up",
+    "build": "docker-compose --profile prod up --build",
+    "stop": "docker-compose stop",
+    "down": "docker-compose down",
+    "prune": "docker-compose down --volume",
+    "dev": "docker-compose --profile dev up",
+    "build:dev": "docker-compose --profile dev up --build",
+    "test": "docker-compose -p test -f docker-compose.test.yml up --abort-on-container-exit --exit-code-from backend_test --no-log-prefix",
+    "build:client": "cd client && BUILD_PATH='../nginx/client_build' yarn build",
+    "preinstall": "echo Install is not allowed here. cd to server to install && exit 1"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "name": "todos-server",
+  "version": "1.0.0",
+  "description": "a todo app api server",
+  "main": "app.js",
+  "author": "Wisam Naji",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon src/app.js",
+    "test": "jest --noStackTrace --forceExit --detectOpenHandles --roots=./src",
+    "test:debug": "node --inspect-brk=0.0.0.0 node_modules/.bin/jest --runInBand --noStackTrace --forceExit --detectOpenHandles --roots=./src"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^6.0.12"
+  },
+  "devDependencies": {
+    "cookie-signature": "^1.1.0",
+    "encrypt-cookie": "^1.1.5",
+    "eslint": "^7.20.0",
+    "jest": "^27.3.1",
+    "jsonwebtoken": "^8.5.1",
+    "monkeypatch": "^1.0.0",
+    "nodemon": "^2.0.14",
+    "prettier": "^2.4.1",
+    "supertest": "^6.1.6"
+  }
+}

@@ -1,0 +1,112 @@
+version: "3.8"
+
+services:
+  mongodb:
+    container_name: mongodb
+    restart: unless-stopped
+    profiles:
+      - prod
+      - dev
+    logging:
+      driver: none
+    image: mongo:5.0.3
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=$MONGODB_USER
+      - MONGO_INITDB_ROOT_PASSWORD=$MONGODB_PASSWORD
+    volumes:
+      - db:/data/db
+
+  backend:
+    depends_on:
+      - mongodb
+    container_name: node-app
+    restart: always
+    build:
+      context: ./server
+    profiles:
+      - prod
+      - dev
+    volumes:
+      - ./server:/backend-app
+    ports:
+      - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
+    environment:
+      - SECRET_KEY=$APP_SECRET
+      - DB_HOST=mongodb
+      - DB_USER=$MONGODB_USER
+      - DB_PASSWORD=$MONGODB_PASSWORD
+      - DB_NAME=$MONGODB_DATABASE
+      - DB_PORT=27017
+      - PORT=$NODE_DOCKER_PORT
+      - PROXY_PORT=$NGINX_LOCAL_PORT
+      - GAPP_CLIENT_ID=$GAPP_CLIENT_ID
+      - GAPP_CLIENT_SECRET=$GAPP_CLIENT_SECRET
+      - GITPOD_WORKSPACE_URL=$GITPOD_WORKSPACE_URL
+      - IS_DOCKER=true
+
+  frontend:
+    depends_on:
+      - backend
+    container_name: react-app
+    restart: always
+    profiles:
+      - dev
+    build:
+      context: ./client
+    volumes:
+      - ./client:/frontend-app
+    ports:
+      - $REACT_LOCAL_PORT:$REACT_DOCKER_PORT
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - PORT=$REACT_DOCKER_PORT
+      - PROXY_PORT=$NGINX_LOCAL_PORT
+      - IS_DOCKER=true
+
+  nginx_dev:
+    depends_on:
+      - backend
+      - frontend
+    container_name: nginx-proxy-dev
+    restart: always
+    profiles:
+      - dev
+    logging:
+      driver: none
+    build:
+      context: ./nginx
+    volumes:
+      - ./nginx/templates/dev.conf.template:/etc/nginx/templates/dev.conf.template
+    ports:
+      - $NGINX_LOCAL_PORT:$NGINX_DOCKER_PORT
+    environment:
+      - PORT=$NGINX_DOCKER_PORT
+      - REACT_DEV_HOST=frontend
+      - REACT_DEV_PORT=$REACT_DOCKER_PORT
+      - NODE_HOST=backend
+      - NODE_PORT=$NODE_DOCKER_PORT
+
+  nginx:
+    depends_on:
+      - backend
+    container_name: nginx-proxy
+    logging:
+      driver: none
+    restart: always
+    profiles:
+      - prod
+    build:
+      context: ./nginx
+    volumes:
+      - ./nginx/templates/prod.conf.template:/etc/nginx/templates/prod.conf.template
+      - ./nginx/client_build:/usr/share/nginx/html
+    ports:
+      - $NGINX_LOCAL_PORT:$NGINX_DOCKER_PORT
+    environment:
+      - PORT=$NGINX_DOCKER_PORT
+      - NODE_HOST=backend
+      - NODE_PORT=$NODE_DOCKER_PORT
+      - NGINX_ENTRYPOINT_QUIET_LOGS=1
+
+volumes:
+  db:
