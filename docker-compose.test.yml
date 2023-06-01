@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   mongodb-test:
-    container_name: mongodb-test
+    container_name: awesome-mongodb-test
     restart: unless-stopped
     logging:
       driver: none
@@ -14,7 +14,7 @@ services:
   backend_test:
     depends_on:
       - mongodb-test
-    container_name: node-app-test
+    container_name: awesome-node-app-test
     restart: "no"
     build:
       context: ./server

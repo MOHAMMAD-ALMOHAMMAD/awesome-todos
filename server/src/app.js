@@ -1,8 +1,15 @@
 const express = require('express');
 const apiRoutes = require('./routes');
 const db = require('./db');
+//const User=require("./models/User");
+
+const cookieParser = require('cookie-parser');
+const passport=require("passport");
+
+
 
 const port = process.env.PORT;
+console.log(process.env.PORT);
 
 // Because OAuth uses redirection, a proxy port is required to
 // redirect to the main proxy server that is defined in the OAuth app
@@ -24,6 +31,10 @@ const app = express();
 app.use(express.json());
 
 app.use('/api', apiRoutes);
+
+app.use(cookieParser());
+
+app.use(passport.initialize());
 
 if (process.env.NODE_ENV !== 'test') {
   app.listen(port, () => {

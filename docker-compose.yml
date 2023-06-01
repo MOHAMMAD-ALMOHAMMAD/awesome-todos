@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   mongodb:
-    container_name: mongodb
+    container_name: awesome-mongodb
     restart: unless-stopped
     profiles:
       - prod
@@ -19,7 +19,7 @@ services:
   backend:
     depends_on:
       - mongodb
-    container_name: node-app
+    container_name: awesome-node-app
     restart: always
     build:
       context: ./server

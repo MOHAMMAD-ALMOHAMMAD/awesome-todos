@@ -11,8 +11,12 @@
     "test:debug": "node --inspect-brk=0.0.0.0 node_modules/.bin/jest --runInBand --noStackTrace --forceExit --detectOpenHandles --roots=./src"
   },
   "dependencies": {
-    "express": "^4.17.1",
-    "mongoose": "^6.0.12"
+    "cookie-parser": "^1.4.6",
+    "express": "^4.18.2",
+    "mongoose": "^6.0.12",
+    "passport": "^0.6.0",
+    "passport-google-oauth20": "^2.0.0",
+    "passport-jwt": "^4.0.1"
   },
   "devDependencies": {
     "cookie-signature": "^1.1.0",
